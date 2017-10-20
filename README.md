@@ -1,10 +1,9 @@
-# ScissLib
+# ScissLib
 
-[![Flattr this](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=sciss&url=https%3A%2F%2Fgithub.com%2FSciss%2FScissLib&title=ScissLib&language=Scala&tags=github&category=software)
 [![Build Status](https://travis-ci.org/Sciss/ScissLib.svg?branch=master)](https://travis-ci.org/Sciss/ScissLib)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.sciss/scisslib/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.sciss/scisslib)
 
-## statement
+## statement
 
 ScissLib is a Java library that contains different functionality such as GUI building, application framework, audio file I/O, etc. It is a core library used by other projects such as Eisenkraut, FScape, or SwingOSC.
 
@@ -19,7 +18,7 @@ ScissLib requires Java 1.4 and builds with [sbt](http://www.scala-sbt.org/) 0.12
 
 The compile use `sbt compile`, to package up the jar use `sbt package`. For the javadocs, use `sbt doc`. The result is found in `target/api/index.html`.
 
-## linking
+## linking
 
 To use this library in your project, you can link to the following [Maven](http://search.maven.org) artifact:
 
@@ -31,7 +30,7 @@ To use this library in your project, you can link to the following [Maven](http:
 
 Please see the file [CONTRIBUTING.md](CONTRIBUTING.md)
 
-## change history
+## change history
 
  - v1.1.0 (mar 2016). supports dark look-and-feel. drop MRJ adaptor.; v1.1.1 - colour enhancements
  - v1.0.0 (aug 2013). fixes issue no. 1 (remove unnecessary scala-library dependency).
