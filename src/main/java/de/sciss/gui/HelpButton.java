@@ -25,6 +25,13 @@
 
 package de.sciss.gui;
 
+import de.sciss.app.DynamicAncestorAdapter;
+import de.sciss.app.DynamicListening;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Window;
@@ -32,13 +39,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.SwingUtilities;
-
-import de.sciss.app.DynamicAncestorAdapter;
-import de.sciss.app.DynamicListening;
+import java.net.URL;
 
 /**
  *	An Aqua-LnF online help button. This
@@ -57,13 +58,18 @@ implements DynamicListening, ActionListener
 
     private Window	win			= null;
     private String	file		= null;
+    private URL     url		    = null;
 
     private final WindowAdapter	winListener;
 
-    public HelpButton( String file )
-    {
+    public HelpButton(String file) {
         this();
-        setHelpFile( file );
+        setHelpFile(file);
+    }
+
+    public HelpButton(URL url) {
+        this();
+        setHelpFileURL(url);
     }
 
     public HelpButton()
@@ -101,9 +107,12 @@ implements DynamicListening, ActionListener
         };
     }
 
-    public void setHelpFile( String file )
-    {
+    public void setHelpFile(String file) {
         this.file = file;
+    }
+
+    public void setHelpFileURL(URL url) {
+        this.url = url;
     }
 
     public String getHelpFile()
@@ -111,10 +120,15 @@ implements DynamicListening, ActionListener
         return file;
     }
 
-    public void actionPerformed( ActionEvent e )
-    {
-        if( file != null ) {
-            HelpFrame.openViewerAndLoadHelpFile( file );
+    public URL getHelpFileURL() {
+        return url;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (file != null) {
+            HelpFrame.openViewerAndLoadHelpFile(file);
+        } else if (url != null) {
+            HelpFrame.openViewerAndLoadHelpFile(url);
         }
     }
 

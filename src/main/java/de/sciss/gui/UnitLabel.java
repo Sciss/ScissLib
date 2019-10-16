@@ -226,7 +226,8 @@ public class UnitLabel
             h = Math.max(h, d.height);
         }
 
-        d = new Dimension(w + in.left + in.right, h + in.top + in.bottom);
+        // `+4` - don't ask me, ask web-laf...
+        d = new Dimension(w + in.left + in.right + 4, h + in.top + in.bottom);
         setMinimumSize(d);
         setPreferredSize(d);
     }

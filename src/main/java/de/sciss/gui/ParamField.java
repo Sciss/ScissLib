@@ -76,6 +76,7 @@ public class ParamField
         setLayout( lay );
         con.anchor		= GridBagConstraints.WEST;
         con.fill		= GridBagConstraints.HORIZONTAL;
+        final Insets noInsets = con.insets;
 
         ggJog			= new Jog();
         ggNumber		= new NumberField();
@@ -130,20 +131,25 @@ public class ParamField
         con.gridy		= 1;
         con.weightx		= 0.0;
         con.weighty		= 0.0;
+        con.insets      = new Insets(0, 2, 0, 2);
         lay.setConstraints(ggJog, con);
-        ggJog.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
+        con.insets      = noInsets;
+//        ggJog.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
         add(ggJog);
 
         con.gridx++;
         con.weightx = 1.0;
+        con.insets  = noInsets;
         lay.setConstraints(ggNumber, con);
         add(ggNumber);
 
         con.gridx++;
         con.weightx = 0.0;
         con.gridwidth = GridBagConstraints.REMAINDER;
+        con.insets      = new Insets(0, 4, 0, 0);
         lay.setConstraints(lbUnit, con);
-        lbUnit.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 0));
+        con.insets      = noInsets;
+//        lbUnit.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 0));
         add(lbUnit);
 
         this.addPropertyChangeListener("font", this);
