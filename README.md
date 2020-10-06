@@ -28,7 +28,7 @@ To use this library in your project, you can link to the following [Maven](http:
 
     GroupId: de.sciss
     ArtifactId: scisslib
-    Version: 1.1.3
+    Version: 1.1.4
 
 ## contributing
 

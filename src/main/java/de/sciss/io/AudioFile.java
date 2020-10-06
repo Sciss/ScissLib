@@ -2354,27 +2354,27 @@ len	= raf.length() - 8;
                 throws IOException {
 
             int		i, i1, i2, i3, essentials, bpf = 0;
-            long	len, magic1, magic2, chunkLen, dataLen = 0;
+            long	len, magic1, magic2, chunkLen, chunkRem, dataLen = 0;
 
             raf.readLong(); raf.readLong();		// riff
-            len	= readLittleLong();
+            len	        = readLittleLong();
             raf.readLong(); raf.readLong();		// wave
-            len	   -= 40;
-            chunkLen = 0;
+            len	       -= 40;
+            chunkRem = 0;
 
 //System.out.println( "len = " + len );
 
             for (essentials = 2; (len >= 24) && (essentials > 0); ) {
-                if (chunkLen != 0) raf.seek(raf.getFilePointer() + chunkLen);    // skip to next chunk
+                if (chunkRem != 0) raf.seek(raf.getFilePointer() + chunkRem);    // skip to next chunk
 
                 magic1		= raf.readLong();
                 magic2		= raf.readLong();
-                chunkLen	= (readLittleLong() + 7) & 0xFFFFFFFFFFFFFFF8L;
+                chunkLen    = readLittleLong() - 24; // minus 16 bytes magic and 8 bytes length field
+                chunkRem	= (chunkLen + 7) & 0xFFFFFFFFFFFFFFF8L;
 
 //System.out.println( "magic1 = " + magic1 + "; chunkLen = " + chunkLen + "; pos = " + raf.getFilePointer() );
 
-                len		   -= chunkLen;
-                chunkLen   -= 24;
+                len		   -= chunkRem;
 
                 if (magic1 == FMT_MAGIC1 && magic2 == FMT_MAGIC2) {
                     essentials--;
@@ -2393,7 +2393,7 @@ len	= raf.length() - 8;
                     }
                     unsignedPCM			= bpf == 1;
 
-                    chunkLen -= 16;
+                    chunkRem -= 16;
 
                     switch( i ) {
                     case FORMAT_PCM:
@@ -2403,7 +2403,7 @@ len	= raf.length() - 8;
                         descr.sampleFormat = AudioFileDescr.FORMAT_FLOAT;
                         break;
                     case FORMAT_EXT:
-                        if( chunkLen < 24 ) throw new IOException( getResourceString( "errAudioFileIncomplete" ));
+                        if( chunkRem < 24 ) throw new IOException( getResourceString( "errAudioFileIncomplete" ));
                         i1 = readLittleUShort();	// extension size
                         if( i1 < 22 ) throw new IOException( getResourceString( "errAudioFileIncomplete" ));
                         i2 = readLittleUShort();	// # valid bits per sample
@@ -2413,7 +2413,7 @@ len	= raf.length() - 8;
                             ((i3 != FORMAT_PCM) &&
                             (i3 != FORMAT_FLOAT)) ) throw new IOException( getResourceString( "errAudioFileEncoding" ));
                         descr.sampleFormat = i3 == FORMAT_PCM ? AudioFileDescr.FORMAT_INT : AudioFileDescr.FORMAT_FLOAT;
-                        chunkLen -= 10;
+                        chunkRem -= 10;
                         break;
                     default:
                         throw new IOException( getResourceString( "errAudioFileEncoding" ));

@@ -1,5 +1,5 @@
 name             := "ScissLib"
-version          := "1.1.3"
+version          := "1.1.4"
 organization     := "de.sciss"
 description      := "A Java library covering GUI building, application framework, and audio file I/O"
 homepage         := Some(url(s"https://github.com/Sciss/${name.value}"))
