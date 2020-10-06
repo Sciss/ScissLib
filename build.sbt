@@ -1,10 +1,10 @@
 name             := "ScissLib"
-version          := "1.1.2"
+version          := "1.1.3"
 organization     := "de.sciss"
 description      := "A Java library covering GUI building, application framework, and audio file I/O"
 homepage         := Some(url(s"https://github.com/Sciss/${name.value}"))
 licenses         := Seq("LGPL v2.1+" -> url("http://www.gnu.org/licenses/lgpl-2.1.txt"))
-scalaVersion     := "2.12.10" // not used
+scalaVersion     := "2.12.12" // not used
 crossPaths       := false  // this is just a Java project
 autoScalaLibrary := false  // this is just a Java project
 
