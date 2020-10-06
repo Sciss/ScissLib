@@ -17,7 +17,8 @@ To contact the author, send an email to `contact at sciss.de`
 
 ## requirements / building
 
-ScissLib requires Java 8 and builds with [sbt](http://www.scala-sbt.org/).
+ScissLib requires Java 8 and builds with [sbt](http://www.scala-sbt.org/). Note because of NIO API changes, it
+is recommended to compile using JDK 8 instead of JDK 11, although we have tried to avoid compatibility problems.
 
 The compile use `sbt compile`, to package up the jar use `sbt package`. For the javadocs, use `sbt doc`. The result
 is found in `target/api/index.html`.
@@ -28,7 +29,7 @@ To use this library in your project, you can link to the following [Maven](http:
 
     GroupId: de.sciss
     ArtifactId: scisslib
-    Version: 1.1.4
+    Version: 1.1.5
 
 ## contributing
 
@@ -36,6 +37,8 @@ Please see the file [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## change history
 
+ - v1.1.5 (oct 2020). fix byte-code incompatibility with JDK 8
+ - v1.1.4 (oct 2020). fix bug in Wave / Wave64 numFrames calculation
  - v1.1.3 (oct 2020). fix string encoding (comments, markers) for AIFF, Wave, SND
  - v1.1.1 (oct 2019). avoid user borders on components, more pref-width for unit-label (WebLookAndFeel quirk)
  - v1.1.0 (mar 2016). supports dark look-and-feel. drop MRJ adaptor.; v1.1.1 - colour enhancements

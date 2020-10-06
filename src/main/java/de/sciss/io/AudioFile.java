@@ -17,6 +17,7 @@ import java.io.DataInput;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.CharBuffer;
@@ -573,9 +574,9 @@ public class AudioFile
 //		
 //			while( length > 0 ) {
 //				chunkLength = Math.min( frameBufCapacity, length );
-//				byteBuf.clear();
+//				((Buffer) byteBuf).clear();
 //					...
-//				byteBuf.flip();
+//				((Buffer) byteBuf).flip();
 //				fch.write( byteBuf );
 //				length -= chunkLength;
 //			}
@@ -696,9 +697,9 @@ public class AudioFile
                         arrayBuf[i] = (byte) (b[j] * 0x7F);
                     }
                 }
-                byteBuf.clear();
+                ((Buffer) byteBuf).clear();
                 byteBuf.put(arrayBuf, 0, m);
-                byteBuf.flip();
+                ((Buffer) byteBuf).flip();
                 fch.write(byteBuf);
                 length -= chunkLength;
                 offset += chunkLength;
@@ -714,9 +715,9 @@ public class AudioFile
             while (length > 0) {
                 chunkLength = Math.min(frameBufCapacity, length);
                 m = chunkLength * bytesPerFrame;
-                byteBuf.rewind().limit(m);
+                ((Buffer) byteBuf).rewind().limit(m);
                 fch.read(byteBuf);
-                byteBuf.flip();
+                ((Buffer) byteBuf).flip();
                 byteBuf.get(arrayBuf, 0, m);
                 for (ch = 0; ch < channels; ch++) {
                     b = frames[ch];
@@ -757,9 +758,9 @@ public class AudioFile
                         arrayBuf[i] = (byte) (b[j] * 0x7F + 0x80);
                     }
                 }
-                byteBuf.clear();
+                ((Buffer) byteBuf).clear();
                 byteBuf.put(arrayBuf, 0, m);
-                byteBuf.flip();
+                ((Buffer) byteBuf).flip();
                 fch.write(byteBuf);
                 length -= chunkLength;
                 offset += chunkLength;
@@ -775,9 +776,9 @@ public class AudioFile
             while (length > 0) {
                 chunkLength = Math.min(frameBufCapacity, length);
                 m = chunkLength * bytesPerFrame;
-                byteBuf.rewind().limit(m);
+                ((Buffer) byteBuf).rewind().limit(m);
                 fch.read(byteBuf);
-                byteBuf.flip();
+                ((Buffer) byteBuf).flip();
                 byteBuf.get(arrayBuf, 0, m);
                 for (ch = 0; ch < channels; ch++) {
                     b = frames[ch];
@@ -803,7 +804,7 @@ public class AudioFile
         private final short[] arrayBuf;
 
         protected ShortBufferHandler() {
-            byteBuf.clear();
+            ((Buffer) byteBuf).clear();
             viewBuf = byteBuf.asShortBuffer();
             arrayBuf = new short[viewBuf.capacity()];
         }
@@ -824,9 +825,9 @@ public class AudioFile
                         arrayBuf[i] = (short) (b[j] * 0x7FFF);
                     }
                 }
-                viewBuf.clear();
+                ((Buffer) viewBuf).clear();
                 viewBuf.put(arrayBuf, 0, m);
-                byteBuf.rewind().limit(chunkLength * bytesPerFrame);
+                ((Buffer) byteBuf).rewind().limit(chunkLength * bytesPerFrame);
                 fch.write(byteBuf);
                 length -= chunkLength;
                 offset += chunkLength;
@@ -842,9 +843,9 @@ public class AudioFile
             while (length > 0) {
                 chunkLength = Math.min(frameBufCapacity, length);
                 m = chunkLength * channels;
-                byteBuf.rewind().limit(chunkLength * bytesPerFrame);
+                ((Buffer) byteBuf).rewind().limit(chunkLength * bytesPerFrame);
                 fch.read(byteBuf);
-                viewBuf.clear();
+                ((Buffer) viewBuf).clear();
                 viewBuf.get(arrayBuf, 0, m);
                 for (ch = 0; ch < channels; ch++) {
                     b = frames[ch];
@@ -893,9 +894,9 @@ public class AudioFile
                         arrayBuf[i++] = (byte) k;
                     }
                 }
-                byteBuf.clear();
+                ((Buffer) byteBuf).clear();
                 byteBuf.put(arrayBuf, 0, m);
-                byteBuf.flip();
+                ((Buffer) byteBuf).flip();
                 fch.write(byteBuf);
                 length -= chunkLength;
                 offset += chunkLength;
@@ -911,9 +912,9 @@ public class AudioFile
             while (length > 0) {
                 chunkLength = Math.min(frameBufCapacity, length);
                 m = chunkLength * bytesPerFrame;
-                byteBuf.rewind().limit(m);
+                ((Buffer) byteBuf).rewind().limit(m);
                 fch.read(byteBuf);
-                byteBuf.flip();
+                ((Buffer) byteBuf).flip();
                 byteBuf.get(arrayBuf, 0, m);
                 for (ch = 0; ch < channels; ch++) {
                     b = frames[ch];
@@ -965,9 +966,9 @@ public class AudioFile
                         arrayBuf[i++] = (byte) (k >> 16);
                     }
                 }
-                byteBuf.clear();
+                ((Buffer) byteBuf).clear();
                 byteBuf.put(arrayBuf, 0, m);
-                byteBuf.flip();
+                ((Buffer) byteBuf).flip();
                 fch.write(byteBuf);
                 length -= chunkLength;
                 offset += chunkLength;
@@ -983,9 +984,9 @@ public class AudioFile
             while (length > 0) {
                 chunkLength = Math.min(frameBufCapacity, length);
                 m = chunkLength * bytesPerFrame;
-                byteBuf.rewind().limit(m);
+                ((Buffer) byteBuf).rewind().limit(m);
                 fch.read(byteBuf);
-                byteBuf.flip();
+                ((Buffer) byteBuf).flip();
                 byteBuf.get(arrayBuf, 0, m);
                 for (ch = 0; ch < channels; ch++) {
                     b = frames[ch];
@@ -1009,7 +1010,7 @@ public class AudioFile
         private final int[] arrayBuf;
 
         protected IntBufferHandler() {
-            byteBuf.clear();
+            ((Buffer) byteBuf).clear();
             viewBuf = byteBuf.asIntBuffer();
             arrayBuf = new int[viewBuf.capacity()];
         }
@@ -1029,9 +1030,9 @@ public class AudioFile
                         arrayBuf[i] = (int) (b[j] * 0x7FFFFFFF);
                     }
                 }
-                viewBuf.clear();
+                ((Buffer) viewBuf).clear();
                 viewBuf.put(arrayBuf, 0, m);
-                byteBuf.rewind().limit(chunkLength * bytesPerFrame);
+                ((Buffer) byteBuf).rewind().limit(chunkLength * bytesPerFrame);
                 fch.write(byteBuf);
                 length -= chunkLength;
                 offset += chunkLength;
@@ -1047,9 +1048,9 @@ public class AudioFile
             while (length > 0) {
                 chunkLength = Math.min(frameBufCapacity, length);
                 m = chunkLength * channels;
-                byteBuf.rewind().limit(chunkLength * bytesPerFrame);
+                ((Buffer) byteBuf).rewind().limit(chunkLength * bytesPerFrame);
                 fch.read(byteBuf);
-                viewBuf.clear();
+                ((Buffer) viewBuf).clear();
                 viewBuf.get(arrayBuf, 0, m);
                 for (ch = 0; ch < channels; ch++) {
                     b = frames[ch];
@@ -1071,7 +1072,7 @@ public class AudioFile
         private final float[] arrayBuf;
 
         protected FloatBufferHandler() {
-            byteBuf.clear();
+            ((Buffer) byteBuf).clear();
             viewBuf = byteBuf.asFloatBuffer();
             arrayBuf = new float[viewBuf.capacity()];
         }
@@ -1091,9 +1092,9 @@ public class AudioFile
                         arrayBuf[i] = b[j];
                     }
                 }
-                viewBuf.clear();
+                ((Buffer) viewBuf).clear();
                 viewBuf.put(arrayBuf, 0, m);
-                byteBuf.rewind().limit(chunkLength * bytesPerFrame);
+                ((Buffer) byteBuf).rewind().limit(chunkLength * bytesPerFrame);
                 fch.write(byteBuf);
                 length -= chunkLength;
                 offset += chunkLength;
@@ -1109,9 +1110,9 @@ public class AudioFile
             while (length > 0) {
                 chunkLength = Math.min(frameBufCapacity, length);
                 m = chunkLength * channels;
-                byteBuf.rewind().limit(chunkLength * bytesPerFrame);
+                ((Buffer) byteBuf).rewind().limit(chunkLength * bytesPerFrame);
                 fch.read(byteBuf);
-                viewBuf.clear();
+                ((Buffer) viewBuf).clear();
                 viewBuf.get(arrayBuf, 0, m);
                 for (ch = 0; ch < channels; ch++) {
                     b = frames[ch];
@@ -1133,7 +1134,7 @@ public class AudioFile
         private final double[] arrayBuf;
 
         protected DoubleBufferHandler() {
-            byteBuf.clear();
+            ((Buffer) byteBuf).clear();
             viewBuf = byteBuf.asDoubleBuffer();
             arrayBuf = new double[viewBuf.capacity()];
         }
@@ -1153,9 +1154,9 @@ public class AudioFile
                         arrayBuf[i] = b[j];
                     }
                 }
-                viewBuf.clear();
+                ((Buffer) viewBuf).clear();
                 viewBuf.put(arrayBuf, 0, m);
-                byteBuf.rewind().limit(chunkLength * bytesPerFrame);
+                ((Buffer) byteBuf).rewind().limit(chunkLength * bytesPerFrame);
                 fch.write(byteBuf);
                 length -= chunkLength;
                 offset += chunkLength;
@@ -1171,9 +1172,9 @@ public class AudioFile
             while (length > 0) {
                 chunkLength = Math.min(frameBufCapacity, length);
                 m = chunkLength * channels;
-                byteBuf.rewind().limit(chunkLength * bytesPerFrame);
+                ((Buffer) byteBuf).rewind().limit(chunkLength * bytesPerFrame);
                 fch.read(byteBuf);
-                viewBuf.clear();
+                ((Buffer) viewBuf).clear();
                 viewBuf.get(arrayBuf, 0, m);
                 for (ch = 0; ch < channels; ch++) {
                     b = frames[ch];
@@ -1281,14 +1282,14 @@ public class AudioFile
             while (b != 0) {
                 if (!bb.hasRemaining()) {
                     final ByteBuffer tmp = ByteBuffer.allocate(bb.capacity() << 1);
-                    bb.flip();
+                    ((Buffer) bb).flip();
                     tmp.put(bb);
                     bb = tmp;
                 }
                 bb.put(b);
                 b = raf.readByte();
             }
-            bb.flip();
+            ((Buffer) bb).flip();
             final byte[] arr = new byte[bb.limit()];
             bb.get(arr);
             return new String(arr, encoding);
@@ -2520,20 +2521,20 @@ len	= raf.length() - 8;
                             cbuf = CharBuffer.allocate(str.length() + 8);
                             bbuf = ByteBuffer.allocate((cbuf.capacity() + 1) << 1);
                         }
-                        cbuf.clear();
+                        ((Buffer) cbuf).clear();
                         cbuf.put(str);
-                        cbuf.flip();
-                        bbuf.clear();
+                        ((Buffer) cbuf).flip();
+                        ((Buffer) bbuf).clear();
                         enc.reset();
                         enc.encode(cbuf, bbuf, true);
                         enc.flush(bbuf);
                         bbuf.putShort((short) 0); // null term
-                        bbuf.flip();
+                        ((Buffer) bbuf).flip();
 
-                        writeLittleInt( bbuf.remaining() );
-                        raf.writeInt( 0 );		// padding
+                        writeLittleInt(bbuf.remaining());
+                        raf.writeInt(0);        // padding
 //System.out.println( "writing " + bbuf.remaining() + " bytes at " + fch.position() );
-                        fch.write( bbuf );
+                        fch.write(bbuf);
                     }
                 }
 
@@ -2627,25 +2628,25 @@ len	= raf.length() - 8;
                     numBytes	= readLittleInt();	// size of name string in bytes
                     raf.readInt(); 					// padding
 
-                    if( bbuf == null || bbuf.capacity() < numBytes ) {
-                        bbuf = ByteBuffer.allocate( numBytes + 16 );
-                        cbuf = CharBuffer.allocate( bbuf.capacity() >> 1 );
+                    if (bbuf == null || bbuf.capacity() < numBytes) {
+                        bbuf = ByteBuffer.allocate(numBytes + 16);
+                        cbuf = CharBuffer.allocate(bbuf.capacity() >> 1);
                     }
 
-                    bbuf.rewind().limit( numBytes );
+                    ((Buffer) bbuf).rewind().limit(numBytes);
 
 //System.out.println( "reading " + bbuf.remaining() + " bytes from " + fch.position() );
 
-                    fch.read( bbuf );
-                    if( (numBytes >= 2) &&
-                        (bbuf.get( numBytes - 2 ) == 0) &&
-                        (bbuf.get( numBytes - 1 ) == 0) ) { // null term
+                    fch.read(bbuf);
+                    if ((numBytes >= 2) &&
+                            (bbuf.get(numBytes - 2) == 0) &&
+                            (bbuf.get(numBytes - 1) == 0)) { // null term
 
-                        bbuf.rewind().limit( numBytes - 2 );
+                        ((Buffer) bbuf).rewind().limit(numBytes - 2);
                     } else {
-                        bbuf.flip();
+                        ((Buffer) bbuf).flip();
                     }
-                    cbuf.clear();
+                    ((Buffer) cbuf).clear();
                     dec.reset();
                     result = dec.decode( bbuf, cbuf, true );
                     if( result.isError() ) {
@@ -2656,7 +2657,7 @@ len	= raf.length() - 8;
                            (result.isUnmappable() ? ": Unmappable" : "")))));
                     }
                     dec.flush( cbuf );
-                    cbuf.flip();
+                    ((Buffer) cbuf).flip();
                     str = cbuf.toString();
 
 // System.out.println( "n1 = " + n1 + "; n2 = " + n2 + "; name  = '" + str + "'" );
