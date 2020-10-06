@@ -186,36 +186,36 @@ public class AudioFileDescr
     static {
         Set	set;
 
-        supports				= new Set[ NUM_TYPES ];
-        set						= new HashSet( 5 );
-        set.add( KEY_LOOP );
-        set.add( KEY_MARKERS );
-        set.add( KEY_GAIN );
-        set.add( KEY_APPCODE );
-        set.add( KEY_COMMENT );
-        supports[ TYPE_AIFF ]	= set;
+        supports				= new Set[NUM_TYPES];
+        set						= new HashSet(5);
+        set.add(KEY_LOOP);
+        set.add(KEY_MARKERS);
+        set.add(KEY_GAIN);
+        set.add(KEY_APPCODE);
+        set.add(KEY_COMMENT);
+        supports[TYPE_AIFF] = set;
 
-        set						= new HashSet( 1 );
-        set.add( KEY_COMMENT );
-        supports[ TYPE_SND ]	= set;
+        set						= new HashSet(1);
+        set.add(KEY_COMMENT);
+        supports[TYPE_SND] = set;
 
-        set						= new HashSet( 2 );
-        set.add( KEY_REGIONS );
-        set.add( KEY_COMMENT );
-        supports[ TYPE_IRCAM ]	= set;
+        set						= new HashSet(2);
+        set.add(KEY_REGIONS);
+        set.add(KEY_COMMENT);
+        supports[TYPE_IRCAM] = set;
 
-        set						= new HashSet( 2 );
-        set.add( KEY_MARKERS );
-        set.add( KEY_GAIN );
-        supports[ TYPE_WAVE ]	= set;
+        set						= new HashSet(2);
+        set.add(KEY_MARKERS);
+        set.add(KEY_GAIN);
+        supports[TYPE_WAVE] = set;
 
-        set						= new HashSet( 1 );
-        supports[ TYPE_RAW ]	= set;
+        set						= new HashSet(1);
+        supports[TYPE_RAW] = set;
 
-        set						= new HashSet( 1 );
-        set.add( KEY_MARKERS );
+        set						= new HashSet(1);
+        set.add(KEY_MARKERS);
 //		set.add( KEY_GAIN );
-        supports[ TYPE_WAVE64 ]	= set;
+        supports[TYPE_WAVE64] = set;
     }
 
 // -------- public Methoden --------

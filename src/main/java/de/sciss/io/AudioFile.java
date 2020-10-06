@@ -1259,7 +1259,9 @@ public class AudioFile
 
         protected final void writeLittleLong(long n)
                 throws IOException {
-            raf.writeLong(((n >> 56) & 0xFFL) |
+
+            raf.writeLong(
+                    ((n >> 56) & 0xFFL) |
                     ((n >> 40) & 0xFF00L) |
                     ((n >> 24) & 0xFF0000L) |
                     ((n >>  8) & 0xFF000000L) |
@@ -2342,15 +2344,15 @@ len	= raf.length() - 8;
         private static final long MARKER_MAGIC1	= 0x5662F7AB2D39D211L;
         private static final long MARKER_MAGIC2	= 0x86C700C04F8EDB8AL;
 
-        private final Charset charset = Charset.forName( "UTF-16LE" );
+        private final Charset charset = Charset.forName("UTF-16LE");
         private long		markersOffset			= 0L;
         private static final long riffLengthOffset	= 16L;
 
         protected Wave64Header() { /* empty */ }
 
-        protected void readHeader( AudioFileDescr descr )
-        throws IOException
-        {
+        protected void readHeader(AudioFileDescr descr)
+                throws IOException {
+
             int		i, i1, i2, i3, essentials, bpf = 0;
             long	len, magic1, magic2, chunkLen, dataLen = 0;
 
@@ -2362,8 +2364,8 @@ len	= raf.length() - 8;
 
 //System.out.println( "len = " + len );
 
-            for( essentials = 2; (len >= 24) && (essentials > 0); ) {
-                if( chunkLen != 0 ) raf.seek( raf.getFilePointer() + chunkLen );	// skip to next chunk
+            for (essentials = 2; (len >= 24) && (essentials > 0); ) {
+                if (chunkLen != 0) raf.seek(raf.getFilePointer() + chunkLen);    // skip to next chunk
 
                 magic1		= raf.readLong();
                 magic2		= raf.readLong();
@@ -2374,7 +2376,7 @@ len	= raf.length() - 8;
                 len		   -= chunkLen;
                 chunkLen   -= 24;
 
-                if( magic1 == FMT_MAGIC1 && magic2 == FMT_MAGIC2 ) {
+                if (magic1 == FMT_MAGIC1 && magic2 == FMT_MAGIC2) {
                     essentials--;
                     i					= readLittleUShort();		// format
                     descr.channels		= readLittleUShort();		// # of channels
@@ -2417,16 +2419,16 @@ len	= raf.length() - 8;
                         throw new IOException( getResourceString( "errAudioFileEncoding" ));
                     }
 
-                } else if( magic1 == DATA_MAGIC1 && magic2 == DATA_MAGIC2 ) {
+                } else if (magic1 == DATA_MAGIC1 && magic2 == DATA_MAGIC2) {
                     essentials--;
-                    sampleDataOffset	= raf.getFilePointer();
-                    dataLen				= chunkLen;
+                    sampleDataOffset = raf.getFilePointer();
+                    dataLen = chunkLen;
 
-                } else if( magic1 == MARKER_MAGIC1 && magic2 == MARKER_MAGIC2 ) {
-                    markersOffset			= raf.getFilePointer();
+                } else if (magic1 == MARKER_MAGIC1 && magic2 == MARKER_MAGIC2) {
+                    markersOffset = raf.getFilePointer();
                 }
             } // for( essentials = 2; (len > 0) && (essentials > 0); )
-            if( essentials > 0 ) throw new IOException( getResourceString( "errAudioFileIncomplete" ));
+            if (essentials > 0) throw new IOException(getResourceString("errAudioFileIncomplete"));
 
             descr.length = dataLen / bpf;
         }
@@ -2442,43 +2444,43 @@ len	= raf.length() - 8;
             long			pos, pos2, n1, n2;
 
             isFloat = descr.sampleFormat == AudioFileDescr.FORMAT_FLOAT;	// floating point requires FACT extension
-            raf.writeLong( RIFF_MAGIC1 );
-            raf.writeLong( RIFF_MAGIC2 );
-            raf.writeLong( 40 );		// Laenge inkl. RIFF-Header (Dateilaenge); unknown now
-            raf.writeLong( WAVE_MAGIC1 );
-            raf.writeLong( WAVE_MAGIC2 );
+            raf.writeLong(RIFF_MAGIC1);
+            raf.writeLong(RIFF_MAGIC2);
+            raf.writeLong(40);		// Laenge inkl. RIFF-Header (Dateilaenge); unknown now
+            raf.writeLong(WAVE_MAGIC1);
+            raf.writeLong(WAVE_MAGIC2);
 
             // ---- fmt Chunk ----
-            raf.writeLong( FMT_MAGIC1 );
-            raf.writeLong( FMT_MAGIC2 );
-            writeLittleLong( isFloat ? 42 : 40 );  // FORMAT_FLOAT has extension of size 0
-            writeLittleShort( isFloat ? FORMAT_FLOAT : FORMAT_PCM );
-            writeLittleShort( descr.channels );
+            raf.writeLong(FMT_MAGIC1);
+            raf.writeLong(FMT_MAGIC2);
+            writeLittleLong(isFloat ? 42 : 40);  // FORMAT_FLOAT has extension of size 0
+            writeLittleShort(isFloat ? FORMAT_FLOAT : FORMAT_PCM);
+            writeLittleShort(descr.channels);
             i1 = (int) (descr.rate + 0.5);
-            writeLittleInt( i1 );
+            writeLittleInt(i1);
             i2 = (descr.bitsPerSample >> 3) * descr.channels;
-            writeLittleInt( i1 * i2 );
-            writeLittleShort( i2 );
-            writeLittleShort( descr.bitsPerSample );
+            writeLittleInt(i1 * i2);
+            writeLittleShort(i2);
+            writeLittleShort(descr.bitsPerSample);
 
-            if( isFloat ) {
+            if (isFloat) {
 //				raf.writeShort( 0 );
-                raf.writeLong( 0 ); // actually a short, but six extra bytes to align to 8-byte boundary
+                raf.writeLong(0); // actually a short, but six extra bytes to align to 8-byte boundary
             }
 
             // ---- fact Chunk ----
-            if( isFloat ) {
-                raf.writeLong( FACT_MAGIC1 );
-                raf.writeLong( FACT_MAGIC2 );
-                writeLittleLong( 32 );
+            if (isFloat) {
+                raf.writeLong(FACT_MAGIC1);
+                raf.writeLong(FACT_MAGIC2);
+                writeLittleLong(32);
                 factSmpNumOffset = raf.getFilePointer();
 //				raf.writeInt( 0 );
-                raf.writeLong( 0 ); // i guess it should be long???
+                raf.writeLong(0); // i guess it should be long???
             }
 
             // -- marker Chunk ----
-            markers  = (List) descr.getProperty( AudioFileDescr.KEY_MARKERS );
-            regions  = (List) descr.getProperty( AudioFileDescr.KEY_REGIONS );
+            markers  = (List) descr.getProperty(AudioFileDescr.KEY_MARKERS);
+            regions  = (List) descr.getProperty(AudioFileDescr.KEY_REGIONS);
             if( ((markers != null) && !markers.isEmpty()) || ((regions != null) && !regions.isEmpty()) ) {
 
                 final CharsetEncoder	enc		= charset.newEncoder();
@@ -2489,16 +2491,16 @@ len	= raf.length() - 8;
                     regions == null ? Collections.EMPTY_LIST : regions
                 };
 
-                raf.writeLong( MARKER_MAGIC1 );
-                raf.writeLong( MARKER_MAGIC2 );
-                pos	= raf.getFilePointer();
-                raf.writeLong( 0 ); // updated afterwards
-                i2	= cues[ 0 ].size() + cues[ 1 ].size();
-                writeLittleInt( i2 );
+                raf.writeLong(MARKER_MAGIC1);
+                raf.writeLong(MARKER_MAGIC2);
+                pos = raf.getFilePointer();
+                raf.writeLong(0); // updated afterwards
+                i2 = cues[0].size() + cues[1].size();
+                writeLittleInt(i2);
                 // CUE64 structures
-                for( int i = 0, id = 1; i < 2; i++ ) {
-                    for( int j = 0; j < cues[ i ].size(); j++, id++ ) {
-                        if( i == 0 ) {
+                for (int i = 0, id = 1; i < 2; i++) {
+                    for (int j = 0; j < cues[i].size(); j++, id++) {
+                        if (i == 0) {
                             marker	= (Marker) cues[ i ].get( j );
                             n1		= marker.pos;
                             n2		= -1;
@@ -2601,7 +2603,7 @@ len	= raf.length() - 8;
         protected void readMarkers()
                 throws IOException {
 
-            if( markersOffset == 0L ) return;
+            if (markersOffset == 0L) return;
 
             final List				markers	= new ArrayList();
             final List				regions	= new ArrayList();
@@ -2615,8 +2617,8 @@ len	= raf.length() - 8;
 
             final long oldPos = raf.getFilePointer();
             try {
-                raf.seek( markersOffset );
-                for( int numCues = readLittleInt(), cue = 0; cue < numCues; cue++ ) {
+                raf.seek(markersOffset);
+                for (int numCues = readLittleInt(), cue = 0; cue < numCues; cue++) {
 //System.out.println( "cue " + (cue+1) + " of " + numCues );
                     raf.readInt();					// marker ID (ignore)
                     raf.readInt(); 					// padding
